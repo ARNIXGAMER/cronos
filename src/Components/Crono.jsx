@@ -2,16 +2,18 @@ import React, { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 
 export const Crono = ({
-  id = "123",
+  id,
   title = "Default",
   description = "Default",
   handleDelete,
-  editMode,
-  setEditMode,
-  setDescription,
-  setTitle
+  setDescriptionEdit,
+  setTitleEdit,
+  descriptionEdit,
+  titleEdit,
+  handleEdit
 }) => {
   const [isCounting, setIsCounting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [seconds, setSeconds] = useState(0);
 
   const formatTime = (s) => {
@@ -29,6 +31,10 @@ export const Crono = ({
   };
   useEffect(() => {
     let interval = null;
+    if(isEditing){
+      setTitleEdit(title)
+      setDescriptionEdit(description)
+    }
     if (isCounting) {
       interval = setInterval(() => {
         setSeconds((s) => s + 1);
@@ -39,14 +45,14 @@ export const Crono = ({
     return () => {
       clearInterval(interval);
     };
-  }, [isCounting]);
+  }, [isCounting,isEditing]);
   return (
-    <Card style={{ width: "18rem" }} id={id}>
+    <Card style={{ width: "18rem" }} key={id}>
       <div className="card-icons">
         <Button variant="primary" onClick={() => handleDelete(id)}>
-          x
+        <i className="fa fa-trash" aria-hidden="true"></i>
         </Button>
-        <Button variant="primary" onClick={() => setEditMode(!editMode)}>
+        <Button variant="primary" onClick={() => setIsEditing(!isEditing)}>
         <i className="fa fa-pencil" aria-hidden="true"></i>
         </Button>
       </div>
@@ -54,7 +60,7 @@ export const Crono = ({
         <Card.Title>{formatTime(seconds)}</Card.Title>
       </div>
 
-      {!editMode ? (
+      {!isEditing ? (
         <Card.Body>
           <div className="card-text">
             <Card.Title>Title : {title}</Card.Title>
@@ -75,27 +81,27 @@ export const Crono = ({
       ) : (
         <Card.Body>
           <div className="card-text">
-            <form >
-
-            </form>
-            <Card.Title>Title : <input
+            <form onSubmit={(e) => {handleEdit(e,id)
+            setIsEditing(!isEditing)}} >
+            <input
             placeholder="Title"
-            onChange={(e) => setTitle(e.target.value)}
-            value={title}
+            onChange={(e) => setTitleEdit(e.target.value)}
+            value={titleEdit}
             required
           />
-          </Card.Title>
-            <Card.Text>Description :
           <input
             placeholder="Project"
-            onChange={(e) => setDescription(e.target.value)}
-            value={description}
+            onChange={(e) => setDescriptionEdit(e.target.value)}
+            value={descriptionEdit}
             required
           />
-          </Card.Text>
+          <Button variant="primary" type="submit">
+              Save
+            </Button>
+            </form>
           </div>
           <div className="card-buttons">
-            <Button variant="primary" onClick={() => setEditMode(!editMode)}>
+            <Button variant="primary" onClick={() => setIsEditing(!isEditing)}>
               X
             </Button>
           </div>
