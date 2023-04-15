@@ -10,7 +10,7 @@ export const Crono = ({
   setTitleEdit,
   descriptionEdit,
   titleEdit,
-  handleEdit
+  handleEdit,
 }) => {
   const [isCounting, setIsCounting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -31,9 +31,9 @@ export const Crono = ({
   };
   useEffect(() => {
     let interval = null;
-    if(isEditing){
-      setTitleEdit(title)
-      setDescriptionEdit(description)
+    if (isEditing) {
+      setTitleEdit(title);
+      setDescriptionEdit(description);
     }
     if (isCounting) {
       interval = setInterval(() => {
@@ -45,15 +45,15 @@ export const Crono = ({
     return () => {
       clearInterval(interval);
     };
-  }, [isCounting,isEditing]);
+  }, [isCounting, isEditing]);
   return (
     <Card style={{ width: "18rem" }} key={id}>
       <div className="card-icons">
         <Button variant="primary" onClick={() => handleDelete(id)}>
-        <i className="fa fa-trash" aria-hidden="true"></i>
+          <i className="fa fa-trash" aria-hidden="true"></i>
         </Button>
         <Button variant="primary" onClick={() => setIsEditing(!isEditing)}>
-        <i className="fa fa-pencil" aria-hidden="true"></i>
+          <i className="fa fa-pencil" aria-hidden="true"></i>
         </Button>
       </div>
       <div className="card-timer">
@@ -81,23 +81,27 @@ export const Crono = ({
       ) : (
         <Card.Body>
           <div className="card-text">
-            <form onSubmit={(e) => {handleEdit(e,id)
-            setIsEditing(!isEditing)}} >
-            <input
-            placeholder="Title"
-            onChange={(e) => setTitleEdit(e.target.value)}
-            value={titleEdit}
-            required
-          />
-          <input
-            placeholder="Project"
-            onChange={(e) => setDescriptionEdit(e.target.value)}
-            value={descriptionEdit}
-            required
-          />
-          <Button variant="primary" type="submit">
-              Save
-            </Button>
+            <form
+              onSubmit={(e) => {
+                handleEdit(e, id);
+                setIsEditing(!isEditing);
+              }}
+            >
+              <input
+                placeholder="Title"
+                onChange={(e) => setTitleEdit(e.target.value)}
+                value={titleEdit}
+                required
+              />
+              <input
+                placeholder="Project"
+                onChange={(e) => setDescriptionEdit(e.target.value)}
+                value={descriptionEdit}
+                required
+              />
+              <Button variant="primary" type="submit">
+                Save
+              </Button>
             </form>
           </div>
           <div className="card-buttons">

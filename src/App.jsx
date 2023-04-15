@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import { Crono } from "./Components/Crono";
-import { Button, Form, InputGroup } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 function App() {
   const [counters, setCounters] = useState([]);
@@ -14,7 +14,7 @@ function App() {
   const handleCreate = (e) => {
     e.preventDefault();
     setCounters((prevCounters) => {
-      const newCounters = prevCounters.concat({title, description });
+      const newCounters = prevCounters.concat({ title, description });
       setTitle("");
       setDescription("");
       setFormCreate(!formCreate);
@@ -24,16 +24,11 @@ function App() {
   const handleEdit = (e, id) => {
     e.preventDefault();
     const editCounters = counters.map((counter, idx) => {
-      console.log(idx,id)
       if (idx === id) {
-        return {...counter,
-          title: titleEdit,
-          description: descriptionEdit,
-        };
+        return { ...counter, title: titleEdit, description: descriptionEdit };
       }
-      console.log(counter)
-      return counter
-    })
+      return counter;
+    });
     setCounters(editCounters);
     setTitleEdit("");
     setDescriptionEdit("");
